@@ -1,0 +1,4 @@
+//Query daftar cas
+select cas.ip_cas,cas.LOKASI,portal.SERIAL_NUMBER,portal.JENIS_PORTAL,portal.TGL_PASANG
+from cas
+INNER JOIN portal ON portal.CAS_ID=cas.CAS_ID;

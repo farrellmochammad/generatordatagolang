@@ -1,0 +1,43 @@
+//DDL FOR ALARM TABLE
+INSERT INTO alarm (TYPE_ALARM,DESKRIPSI) VALUES ('ALARM-001','New element');
+INSERT INTO alarm (TYPE_ALARM,DESKRIPSI) VALUES ('ALARM-002','Testing new element');
+INSERT INTO alarm (TYPE_ALARM,DESKRIPSI) VALUES ('ALARM-001','Detected contamination element');
+INSERT INTO alarm (TYPE_ALARM,DESKRIPSI) VALUES ('ALARM-001','Element clear')
+
+//## apa nilai dan isi pada type alarm dan deskripsi
+
+
+//DDL FOR COMMAND TABLE
+INSERT INTO command (command_id,deskripsi) VALUES ('1','This is command A');
+INSERT INTO command (command_id,deskripsi) VALUES ('2','This is command B');
+INSERT INTO command (command_id,deskripsi) VALUES ('3','This is command C');
+INSERT INTO command (command_id,deskripsi) VALUES ('4','This is command D')
+
+//## apa isi deksripsi di command table ?
+
+//DDL FOR LOG_COMMAND TABLE
+INSERT INTO log_command (log_command_id,command_id,keterangan,tgl_command,user_command) VALUES ('1','2','GET REQUEST','2018-7-7 14:59:21','To detect');
+INSERT INTO log_command (log_command_id,command_id,keterangan,tgl_command,user_command) VALUES ('2','3','PUT REQUEST','2018-8-13 14:13:59','To detect');
+INSERT INTO log_command (log_command_id,command_id,keterangan,tgl_command,user_command) VALUES ('3','3','PATCH REQUEST','2018-1-15 10:20:21','To detect');
+INSERT INTO log_command (log_command_id,command_id,keterangan,tgl_command,user_command) VALUES ('4','1','DELETE REQUEST','2018-5-6 13:08:50','To detect')
+
+//## apa isi dari keterangan dan user_command
+
+//DDL FOR CAS
+INSERT INTO CAS (CAS_ID,IP_CAS,LOKASI,TGL_REGISTER,STATUS_CONNECTED,TGL_UPDATE_STATUS) VALUES ('1','192.105.43.1','TANJUNG PRIOK','2018-7-8',1,'2018-7-10');
+INSERT INTO CAS (CAS_ID,IP_CAS,LOKASI,TGL_REGISTER,STATUS_CONNECTED,TGL_UPDATE_STATUS) VALUES ('2','192.110.127.4','TANJUNG PERAK','2018-5-5',1,'2018-5-7');
+INSERT INTO CAS (CAS_ID,IP_CAS,LOKASI,TGL_REGISTER,STATUS_CONNECTED,TGL_UPDATE_STATUS) VALUES ('3','192.168.0.4','BELAWAN','2018-6-5',0,'2018-6-7')
+
+//DDL FOR PORTAL 
+INSERT INTO PORTAL (PORTAL_ID,SERIAL_NUMBER,TGL_PASANG,CAS_ID,JENIS_PORTAL,STATUS_PORTAL) VALUES ('10','KD91-JUED-A55D-DIUA-93CQ','2018-1-1','1','PORTAL UTAMA',1);
+INSERT INTO PORTAL (PORTAL_ID,SERIAL_NUMBER,TGL_PASANG,CAS_ID,JENIS_PORTAL,STATUS_PORTAL) VALUES ('11','K321-DA4X-B51X-DCGL-134B','2018-2-3','1','PORTAL PENDUKUNG',2);
+INSERT INTO PORTAL (PORTAL_ID,SERIAL_NUMBER,TGL_PASANG,CAS_ID,JENIS_PORTAL,STATUS_PORTAL) VALUES ('12','124B-CCCD-BA45-D135-1ADB','2018-2-3','2','PORTAL PENDUKUNG',2)
+
+//DDL FOR USERNAME
+INSERT INTO USERNAME (USER_NAME_CAS,PASSWORD) VALUES ('admin','admin')
+
+//DDL FOR SCAN_PORTAL
+INSERT INTO scan_portal (scan_portal_id,start_time,durasi,alarm_status,image_data,video_data,no_kontainer,tgl_terkirim,terkirim_ke_dc,terkirim_ke_mq,cas_id,alarm_id,tgl_buat,user_name_cas) VALUES ('11','2018-1-1 20:20:20','3.0',1,'1MgQjYCMLPspDZiMKmqjfuF7ojuV7yD3','1MgQjYCMLPspDZiMKmqjfuY6FGAVW1yD3Mb','dfsu6189','2018-1-5 21:13:43','1','1','1','2','2018-1-1 20:20:20','admin')
+
+//DDL FOR DATA_SCAN
+INSERT INTO DATA_SCAN (DATA_SCAN_ID,WAKTU,CACAH_GROSS,NAMA_UNSUR,URUTAN_SCAN,SCAN_PORTAL_ID) VALUES ('1',9.0,2,'COBALT',2,11)
