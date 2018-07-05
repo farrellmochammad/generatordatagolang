@@ -25,15 +25,20 @@ type jointableregis struct{
 	tanggalpasang string
 }
 
-// DataPortal struct
 type DataPortal struct {
   SerialNumber string `json:"SerialNumber"`
 	JenisPortal string `json:"JenisPortal"`
 	TanggalPasang  string `json:"TanggalPasang"`
 }
 
+type idcas struct{
+	casid string `json:"CAS-ID"`
+}
+
+
 // Init regiscas var as a slice Registercas struct
 var regis []Registercas
+var cas []idcas
 
 // Get all regiscas
 func Regiscas(w http.ResponseWriter, r *http.Request) {
@@ -44,8 +49,7 @@ func Regiscas(w http.ResponseWriter, r *http.Request) {
 func getRegiscas(w http.ResponseWriter, r *http.Request){
 	w.Header().Set("Content-Type", "application/json")
   params := mux.Vars(r)
-	var stringip string `json:"CAS-ID"`
-	var cas_id string
+	var stringip string
 
 	dbDriver := "mysql"
 	dbPort := "root@tcp(127.0.0.1:3306)/"
@@ -56,10 +60,12 @@ func getRegiscas(w http.ResponseWriter, r *http.Request){
 	defer db.Close()
 
 	st := "select cas_id from cas where ip_cas = '" +  params["ip"] + "'"
-	query := db.QueryRow(st)
-	if err != nil { panic (err.Error())}
-	stringip = query.Scan(&st)
-	json.NewEncoder(w).encode(stringip)
+	query := db.QueryRow(st).Scan(&stringip)
+	if query != nil {panic (err.Error())}
+
+	cas = append(cas,idcas{casid:stringip})
+  fmt.Println("Nilai string : ",stringip)
+	json.NewEncoder(w).Encode(cas)
 }
 
 func Queryregiscasdb(db *sql.DB){
