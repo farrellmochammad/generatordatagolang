@@ -1,54 +1,50 @@
 package main
 
 import (
-	"encoding/json"
-	"log"
-	"fmt"
-	"net/http"
-	"github.com/gorilla/mux"
-	_ "github.com/go-sql-driver/mysql"
-	"database/sql"
+	"math/rand"
+  "fmt"
+	"gonum.org/v1/plot"
+	"gonum.org/v1/plot/plotter"
+	"gonum.org/v1/plot/plotutil"
+	"gonum.org/v1/plot/vg"
 )
 
-type idofcas struct{
-  Casofid string `json:casofid`
-}
-
-var cas []idofcas
-
-func Regiscas(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(cas)
-}
-
 func main() {
+	rand.Seed(int64(0))
 
-	// Init router
-	r := mux.NewRouter()
-	dbDriver := "mysql"
-	dbPort := "root@tcp(127.0.0.1:3306)/"
-	dbName := "cas_db"
-	//connect to database
-	db,err := sql.Open(dbDriver,dbPort + dbName)
-  if err != nil{ fmt.Println(err.Error())}
-  defer db.Close()
+	p, err := plot.New()
+	if err != nil {
+		panic(err)
+	}
 
-  var ids string
-  query,err := db.Query("select cas_id from cas")
-  if err != nil {panic(err.Error())}
-  defer query.Close()
+	p.Title.Text = "Plotutil example"
+	p.X.Label.Text = "X"
+	p.Y.Label.Text = "Y"
 
-  for query.Next(){
-    data := query.Scan(&ids)
-    if data != nil {(panic(data.Error()))}
-    cas = append(cas,idofcas{Casofid:ids})
-  }
+	err = plotutil.AddLinePoints(p,
+		"First", randomPoints(15))
+	if err != nil {
+		panic(err)
+	}
 
-  cas = append(cas[:0], cas[0+1:]...)
-	// Route handles & endpoints
-	r.HandleFunc("/registerCas", Regiscas).Methods("GET")
+	// Save the plot to a PNG file.
+	if err := p.Save(4*vg.Inch, 4*vg.Inch, "points.png"); err != nil {
+		panic(err)
+	}
+}
 
-
-	// Start server
-	log.Fatal(http.ListenAndServe(":8010", r))
+// randomPoints returns some random x, y points.
+func randomPoints(n int) plotter.XYs {
+	pts := make(plotter.XYs, n)
+	for i := range pts {
+		if i == 0 {
+			pts[i].X = rand.Float64()
+		} else {
+			pts[i].X = pts[i-1].X + rand.Float64()
+		}
+		pts[i].Y = pts[i].X + 10*rand.Float64()
+		fmt.Println("X : ", pts[i].X)
+		fmt.Println("Y : ", pts[i].Y)
+	}
+	return pts
 }
