@@ -11,6 +11,7 @@ import (
 
 func main() {
 	rand.Seed(int64(0))
+	//var b float64
 
 	p, err := plot.New()
 	if err != nil {
@@ -31,6 +32,10 @@ func main() {
 	if err := p.Save(4*vg.Inch, 4*vg.Inch, "points.png"); err != nil {
 		panic(err)
 	}
+
+	//b = 4
+	c :=5
+	fmt.Println("Nilai b : ",string(c))
 }
 
 // randomPoints returns some random x, y points.
